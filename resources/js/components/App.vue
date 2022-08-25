@@ -1,5 +1,5 @@
 <template>
-<div class="flex flex--column flex--align-center flex--justify-center">
+<!-- <div class="flex flex--column flex--align-center flex--justify-center">
     <div class="logos">
         <img src="../../static/img/laravel.png" width="240" alt="" />
         <img src="../../static/img/vue.png" width="240" alt="" />
@@ -11,7 +11,8 @@
         <h1 class="plus">+</h1>
         <h1 class="laravel">Laravel 8</h1>
     </div>
-</div>
+</div> -->
+<router-view></router-view>
 </template>
 
 <script>
@@ -29,7 +30,7 @@ body,
     width: 100%;
     height: 100%;
     font-family: Arial, Helvetica, sans-serif;
-    background: #e3e4e5;
+    background: #ecf0f3;
 }
 
 .flex {
