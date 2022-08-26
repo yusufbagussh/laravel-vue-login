@@ -37,10 +37,58 @@
             </div>
         </div>
         <div v-else>
-            <h2>Dashboard ....</h2>
-            <button type="button" class="btn btn-dark" @click="logout">
-                Logout
-            </button>
+            <nav
+                class="navbar navbar-expand-lg navbar-light bg-light fixed-top"
+            >
+                <div class="container">
+                    <router-link class="navbar-brand" to="/dashboard"
+                        >Website</router-link
+                    >
+                    <button
+                        class="navbar-toggler"
+                        type="button"
+                        data-bs-toggle="collapse"
+                        data-bs-target="#navbarResponsive"
+                        aria-controls="navbarResponsive"
+                        aria-expanded="false"
+                        aria-label="Toggle navigation"
+                    >
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarResponsive">
+                        <ul class="navbar-nav ms-auto">
+                            <li class="nav-item active">
+                                <router-link
+                                    class="nav-link"
+                                    to="/dashboard/home"
+                                    >Home</router-link
+                                >
+                            </li>
+                            <li class="nav-item">
+                                <router-link class="nav-link" to="#"
+                                    >About</router-link
+                                >
+                            </li>
+                            <li class="nav-item">
+                                <router-link class="nav-link" to="#"
+                                    >Services</router-link
+                                >
+                            </li>
+                            <li class="nav-item">
+                                <router-link class="nav-link" to="#"
+                                    >Contact</router-link
+                                >
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="text-center fs-6 justify-content">
+                        <button class="btn btn-danger" @click="logout">
+                            Logout
+                        </button>
+                    </div>
+                </div>
+            </nav>
+            <Header />
         </div>
     </div>
 </template>
@@ -48,6 +96,7 @@
 <script>
 import { reactive, inject, ref, onMounted } from "vue";
 import axios from "axios";
+import Header from "../components/Header.vue";
 export default {
     setup() {
         let cookies = inject("cookies");
@@ -56,9 +105,11 @@ export default {
             email: "",
             password: "",
         });
+        const validation = ref([]);
 
         const login = async () => {
             let res = await axios.post("api/login", form);
+            console.log(res);
             if (res.data.access_token) {
                 cookies.set("access_token", res.data.access_token);
                 isAuthenticated.value = true;
@@ -87,6 +138,7 @@ export default {
             logout,
         };
     },
+    components: { Header },
 };
 </script>
 <style>

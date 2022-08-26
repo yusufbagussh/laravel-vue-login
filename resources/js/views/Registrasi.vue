@@ -2,12 +2,7 @@
     <div>
         <div class="wrapper">
             <div class="text-center mt-4 name">Sign up</div>
-            <form
-                class="p-4 mt-4"
-                action=""
-                method="post"
-                @submit.prevent="submit"
-            >
+            <form class="p-4 mt-4" @submit.prevent="store">
                 <div class="form-field d-flex align-items-center">
                     <input
                         type="text"
@@ -16,6 +11,9 @@
                         placeholder="Username"
                         v-model="form.name"
                     />
+                </div>
+                <div v-if="validation.name" class="mt-2 alert alert-danger">
+                    {{ validation.name[0] }}
                 </div>
                 <div class="form-field d-flex align-items-center">
                     <input
@@ -26,6 +24,9 @@
                         v-model="form.email"
                     />
                 </div>
+                <div v-if="validation.email" class="mt-2 alert alert-danger">
+                    {{ validation.email[0] }}
+                </div>
                 <div class="form-field d-flex align-items-center">
                     <input
                         type="password"
@@ -34,6 +35,9 @@
                         placeholder="Password"
                         v-model="form.password"
                     />
+                </div>
+                <div v-if="validation.password" class="mt-2 alert alert-danger">
+                    {{ validation.password[0] }}
                 </div>
                 <div class="form-field d-flex align-items-center">
                     <input
@@ -44,72 +48,78 @@
                         v-model="form.password_confirmation"
                     />
                 </div>
-                <router-link class="btn mt-3" to="/">Submit</router-link>
+                <div
+                    v-if="validation.password_confirmation"
+                    class="mt-2 alert alert-danger"
+                >
+                    {{ validation.password_confirmation[0] }}
+                </div>
+                <button class="btn mt-3" type="submit">Submit</button>
+                <div class="text-center fs-6">
+                <router-link to="/">Sign in</router-link>
+            </div>
             </form>
         </div>
     </div>
 </template>
 
 <script>
-import { mapActions, mapGetters } from "vuex";
+import { reactive, ref } from "vue";
+import { useRouter } from "vue-router";
+import axios from "axios";
+
 export default {
-    name: "Register",
-    data() {
+    setup() {
+        //state posts
+        const form = reactive({
+            name: "",
+            email: "",
+            user_role: 2,
+            password: "",
+            password_confirmation: "",
+        });
+
+        //state validation
+        const validation = ref([]);
+
+        //vue router
+        const router = useRouter();
+
+        //method store
+        function store() {
+            let name = form.name;
+            let email = form.email;
+            let password = form.password;
+            let password_confirmation = form.password_confirmation;
+
+            axios
+                .post("api/register", {
+                    name: name,
+                    email: email,
+                    password: password,
+                    password_confirmation: password_confirmation,
+                })
+                .then(() => {
+                    //redirect ke login
+                    router.push({
+                        path: "/",
+                    });
+                })
+                .catch((error) => {
+                    //assign state validation with error
+                    validation.value = error.response.data;
+                });
+        }
+
+        //return
         return {
-            form: {
-                name: "",
-                email: "",
-                password: "",
-                password_confirmation: "",
-            },
-            showError: false,
+            form,
+            validation,
+            router,
+            store,
         };
     },
-    computed: {
-        ...mapGetters({ errors: "getError" }),
-    },
-    methods: {
-        ...mapActions(["Register"]),
-        submit: function () {
-            let data = {
-                name: this.form.name,
-                email: this.form.email,
-                password: this.form.password,
-                password_confirmation: this.form.password_confirmation,
-            };
-
-            this.$store
-                .dispatch("http://localhost:8000/api/auth/register", data)
-                .then(() => this.$router.push("/dashboard"))
-                .catch((err) => {
-                    this.showError = true;
-                });
-        },
-    },
 };
-
-// import axios from "axios";
-
-// export default {
-//     name: "AddLocation",
-//     data() {
-//         return {
-//             lokasi_nama: "",
-//         };
-//     },
-//     methods: {
-//         async store() {
-//             try {
-//                 await axios.post("http://localhost:8000/api/location", {
-//                     lokasi_nama: this.lokasi_nama,
-//                 });
-//                 (this.lokasi_nama = ""), this.$router.push("/location");
-//             } catch (error) {
-//                 console.log(error);
-//             }
-//         },
-//     },
-// };
 </script>
 <style>
 .wrapper {
