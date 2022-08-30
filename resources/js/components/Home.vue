@@ -1,20 +1,19 @@
 <template>
     <div>
-        <Navbar/>
+        <div class="wrapper">
             <div class="text-center mt-4 name">
                 ini adalah Home
             </div>
+        </div>
     </div>
 </template>
 
 <script>
-import Navbar from '../components/Navbar.vue';
 
 export default{
     data(){
         return
-    },
-    components : {Navbar}
+    }
 }
 </script>
 

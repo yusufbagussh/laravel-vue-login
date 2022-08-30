@@ -1,6 +1,5 @@
 <template>
 <Navbar></Navbar>
-<Header></Header>
 </template>
 
 <script>

@@ -7,7 +7,7 @@
                     alt=""
                 />
             </div>
-            <br />
+            <br/>
             <div class="text-center mt-4 name">Login</div>
             <form class="p-4 mt-4" @submit.prevent="login">
                 <div class="form-field d-flex align-items-center">
@@ -41,14 +41,14 @@
                 class="navbar navbar-expand-lg navbar-light bg-light fixed-top"
             >
                 <div class="container">
-                    <router-link class="navbar-brand" to="/dashboard"
+                    <router-link class="navbar-brand" to="/"
                         >Website</router-link
                     >
                     <button
                         class="navbar-toggler"
                         type="button"
                         data-bs-toggle="collapse"
-                        data-bs-target="#navbarResponsive"
+                        data-bs-target="navbarResponsive"
                         aria-controls="navbarResponsive"
                         aria-expanded="false"
                         aria-label="Toggle navigation"
@@ -60,7 +60,6 @@
                             <li class="nav-item active">
                                 <router-link
                                     class="nav-link"
-                                    to="/dashboard/home"
                                     >Home</router-link
                                 >
                             </li>
